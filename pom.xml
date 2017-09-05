@@ -5,7 +5,7 @@
 
 	<groupId>com.globo.ateam</groupId>
 	<artifactId>taurina</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <version>${taurina.version}</version>
 	<packaging>jar</packaging>
 
 	<name>taurina</name>
@@ -18,10 +18,37 @@
 		<relativePath/>
 	</parent>
 
+    <profiles>
+        <profile>
+            <id>version-defined</id>
+            <activation>
+                <property>
+                    <name>env.TAURINA_VERSION</name>
+                </property>
+            </activation>
+            <properties>
+                <taurina.version>${env.TAURINA_VERSION}</taurina.version>
+            </properties>
+        </profile>
+        <profile>
+            <id>version-undefined</id>
+            <activation>
+                <property>
+                    <name>!env.TAURINA_VERSION</name>
+                </property>
+            </activation>
+            <properties>
+                <taurina.version>0.0.1-SNAPSHOT</taurina.version>
+            </properties>
+        </profile>
+    </profiles>
+
 	<properties>
+		<timestamp>${maven.build.timestamp}</timestamp>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<jmeter.version>3.2</jmeter.version>
 	</properties>
 
 	<dependencies>
@@ -34,6 +61,63 @@
 			<artifactId>guava</artifactId>
 			<version>[21.0,)</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.jmeter</groupId>
+			<artifactId>ApacheJMeter_http</artifactId>
+			<version>${jmeter.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mongodb</groupId>
+					<artifactId>mongo-java-driver</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_java</artifactId>
+            <version>${jmeter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mongodb</groupId>
+                    <artifactId>mongo-java-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_tcp</artifactId>
+            <version>${jmeter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mongodb</groupId>
+                    <artifactId>mongo-java-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jmeter</groupId>
+            <artifactId>ApacheJMeter_functions</artifactId>
+            <version>${jmeter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mongodb</groupId>
+                    <artifactId>mongo-java-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+		<dependency>
+			<groupId>com.timgroup</groupId>
+			<artifactId>java-statsd-client</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
